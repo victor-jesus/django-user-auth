@@ -1,0 +1,270 @@
+.detail-wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+    padding-bottom: 60px;
+}
+
+.detail-breadcrumb {
+    margin-bottom: 28px;
+}
+
+.breadcrumb-link {
+    font-size: 13px;
+    color: var(--text-faint);
+    font-weight: 500;
+    transition: color var(--ease);
+}
+
+.breadcrumb-link:hover {
+    color: var(--text);
+}
+
+.detail-doc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 40px 48px;
+    animation: fadeUp 0.25s ease both;
+}
+
+.detail-status-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.detail-due { font-size: 12px; font-weight: 500; }
+.due-ok      { color: var(--success); }
+.due-today   { color: var(--warning); }
+.due-overdue { color: var(--danger); }
+
+.detail-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--text);
+    margin: 0 0 16px 0;
+}
+
+.detail-meta-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.meta-item  { display: flex; align-items: center; gap: 6px; }
+.meta-label { font-size: 12px; color: var(--text-faint); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
+.meta-value { font-size: 13px; color: var(--text-sub); font-weight: 500; }
+.meta-sep   { color: var(--text-faint); font-size: 14px; }
+
+.detail-divider {
+    border-top: 1px solid var(--border);
+    margin: 28px 0;
+}
+
+.detail-section-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    margin-bottom: 12px;
+}
+
+.detail-body {
+    font-size: 15px;
+    color: var(--text-sub);
+    line-height: 1.75;
+}
+
+.detail-empty {
+    color: var(--text-faint);
+    font-style: italic;
+    font-size: 14px;
+}
+
+.detail-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+/* edit */
+
+.edit-status-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.status-selector {
+    display: flex;
+    gap: 6px;
+}
+
+.status-option {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-faint);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--ease);
+    user-select: none;
+}
+
+.status-option input[type="radio"] {
+    display: none;
+    width: auto;
+    padding: 0;
+}
+
+.status-option:hover {
+    border-color: rgba(255,255,255,0.18);
+    color: var(--text-sub);
+    background: var(--surface-2);
+}
+
+.status-option:has(input[value="todo"]:checked)  { background: rgba(155,155,155,0.12); border-color: rgba(155,155,155,0.25); color: var(--text-sub); }
+.status-option:has(input[value="doing"]:checked) { background: rgba(232, 162, 75, 0.12); border-color: rgba(232, 162, 75, 0.28); color: var(--warning); }
+.status-option:has(input[value="done"]:checked)  { background: rgba(93, 190, 163, 0.12); border-color: rgba(93, 190, 163, 0.28); color: var(--success); }
+
+/* fallback para browsers sem :has() */
+.status-option.active { border-color: rgba(255,255,255,0.18); color: var(--text-sub); background: var(--surface-2); }
+
+.edit-title-wrap {
+    margin-bottom: 16px;
+}
+
+.edit-title-input {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--text);
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    width: 100%;
+    caret-color: var(--primary);
+}
+
+.edit-title-input:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+}
+
+.edit-title-input::placeholder {
+    color: var(--text-faint);
+}
+
+.edit-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.edit-date-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed var(--border);
+    border-radius: 0;
+    color: var(--text-sub);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    padding: 2px 4px;
+    width: auto;
+    cursor: pointer;
+    transition: border-color var(--ease), color var(--ease);
+}
+
+.edit-date-input:focus {
+    outline: none;
+    border-bottom-color: var(--primary);
+    color: var(--text);
+    box-shadow: none;
+    background: transparent;
+}
+
+::-webkit-calendar-picker-indicator {
+    filter: invert(0.6);
+    cursor: pointer;
+}
+
+.edit-desc-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edit-desc-input {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    color: var(--text-sub);
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.75;
+    resize: none;
+    overflow: hidden;
+    min-height: 80px;
+    caret-color: var(--primary);
+}
+
+.edit-desc-input:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    color: var(--text);
+}
+
+.edit-desc-input::placeholder {
+    color: var(--text-faint);
+    font-style: italic;
+}
+
+@media (max-width: 600px) {
+    .detail-doc {
+        padding: 28px 24px;
+    }
+
+    .detail-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .detail-footer .d-flex {
+        justify-content: flex-end;
+    }
+
+    .edit-doc {
+        padding: 28px 24px;
+    }
+
+    .edit-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .status-selector {
+        flex-wrap: wrap;
+    }
+}

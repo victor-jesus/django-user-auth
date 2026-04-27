@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'globals/css/kanban.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="kanban-header">
+    <h2 class="kanban-title">Minhas Tasks</h2>
+    <a href="{% url 'tasks:create' %}" class="btn-primary-ui">
+        + Nova Task
+    </a>
+</div>
+
+<div class="kanban-grid">
+    <div class="kanban-column">
+        <div class="kanban-column-header">
+            <h5>To Do</h5>
+            <span class="kanban-badge">{{ todo_count }}</span>
+        </div>
+        <div class="kanban-scroll drop-zone" data-status="todo">
+            {% for task in todo_tasks %}
+                {% include "tasks/partials/_task_card.html" %}
+            {% empty %}
+                <p class="kanban-empty">Nada por aqui</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="kanban-column">
+        <div class="kanban-column-header">
+            <h5>Doing</h5>
+            <span class="kanban-badge warning">{{ doing_count }}</span>
+        </div>
+        <div class="kanban-scroll drop-zone" data-status="doing">
+            {% for task in doing_tasks %}
+                {% include "tasks/partials/_task_card.html" %}
+            {% empty %}
+                <p class="kanban-empty">Nada em andamento</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="kanban-column">
+        <div class="kanban-column-header">
+            <h5>Done</h5>
+            <span class="kanban-badge success">{{ done_count }}</span>
+        </div>
+        <div class="kanban-scroll drop-zone" data-status="done">
+            {% for task in done_tasks %}
+                {% include "tasks/partials/_task_card.html" %}
+            {% empty %}
+                <p class="kanban-empty">Nada finalizado</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+<script>
+const CSRF = '{{ csrf_token }}';
+
+document.addEventListener('dragstart', e => {
+    const card = e.target.closest('.draggable-card');
+    if (!card) return;
+    e.dataTransfer.setData('taskId', card.dataset.id);
+});
+
+
+document.addEventListener('dragover', e => {
+    if (e.target.closest('.drop-zone')) e.preventDefault();
+});
+
+document.addEventListener('drop', e => {
+    const zone = e.target.closest('.drop-zone');
+    if (!zone) return;
+    e.preventDefault();
+
+    const taskId = e.dataTransfer.getData('taskId');
+    const newStatus = zone.dataset.status;
+
+    fetch(`/tasks/${taskId}/status/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': CSRF,
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `status=${newStatus}`,
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.ok) location.reload();
+    });
+});
+</script>
+
+{% endblock %}

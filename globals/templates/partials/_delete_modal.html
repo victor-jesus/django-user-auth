@@ -1,0 +1,33 @@
+<div class="modal fade" id="{{ modal_id }}" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content app-modal">
+
+            <div class="modal-header app-modal-header">
+                <h5 class="modal-title">Confirmar exclusão</h5>
+
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body app-modal-body">
+                Tem certeza que deseja deletar
+                <strong class="text-danger">{{ object_name }}</strong>?
+            </div>
+
+            <div class="modal-footer app-modal-footer">
+
+                <button type="button" class="btn-cancel" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+
+                <form method="post" action="{{ action }}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-danger-ui">
+                        Sim, deletar
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>

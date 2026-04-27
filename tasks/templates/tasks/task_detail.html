@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}{{ task.title }}{% endblock %}
+
+{% block content %}
+
+<div class="detail-wrapper">
+    <nav class="detail-breadcrumb">
+        <a href="{% url 'tasks:list' %}" class="breadcrumb-link">
+            ← Minhas Tasks
+        </a>
+    </nav>
+
+    <article class="detail-doc">
+        <div class="detail-status-row">
+            <span class="task-status-badge status-{{ task.status }}">
+                {% if task.status == 'todo' %}
+                    ○ &nbsp;To Do
+                {% elif task.status == 'doing' %}
+                    ◑ &nbsp;Doing
+                {% else %}
+                    ● &nbsp;Done
+                {% endif %}
+            </span>
+
+            {% if task.due_at %}
+                <span class="detail-due
+                    {% if task.is_overdue %} due-overdue
+                    {% elif task.is_today %} due-today
+                    {% else %} due-ok
+                    {% endif %}">
+                    {% if task.is_overdue %}
+                        ⛔ Atrasada —
+                    {% elif task.is_today %}
+                        🔥 Hoje —
+                    {% else %}
+                        ✔ Prazo —
+                    {% endif %}
+                    {{ task.due_at|date:"d/m/Y \à\s H:i" }}
+                </span>
+            {% endif %}
+        </div>
+        <h1 class="detail-title">{{ task.title }}</h1>
+
+        <div class="detail-meta-line">
+            <span class="meta-item">
+                <span class="meta-label">Criado em</span>
+                <span class="meta-value">{{ task.created_at|date:"d/m/Y" }}</span>
+            </span>
+            <span class="meta-sep">·</span>
+            <span class="meta-item">
+                <span class="meta-label">Por</span>
+                <span class="meta-value">{{ task.user.username }}</span>
+            </span>
+        </div>
+
+        <div class="detail-divider"></div>
+
+        <section class="detail-section">
+            <h6 class="detail-section-label">Descrição</h6>
+            <div class="detail-body">
+                {% if task.description %}
+                    {{ task.description|linebreaksbr }}
+                {% else %}
+                    <span class="detail-empty">Nenhuma descrição adicionada.</span>
+                {% endif %}
+            </div>
+        </section>
+
+        <div class="detail-divider"></div>
+        <footer class="detail-footer">
+            <a href="{% url 'tasks:list' %}" class="btn-secondary-ui">
+                ← Voltar
+            </a>
+
+            <div class="d-flex gap-2">
+                <a href="{% url "tasks:edit" task.id %}" class="btn-primary-ui-outline">
+                    Editar
+                </a>
+                <button
+                    type="button"
+                    class="btn-danger-ui"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteModal">
+                    Deletar
+                </button>
+            </div>
+        </footer>
+
+    </article>
+
+</div>
+
+
+{% include "partials/_delete_modal.html" with modal_id="deleteModal" action=task.get_delete_url object_name=task.title %}
+{% endblock %}

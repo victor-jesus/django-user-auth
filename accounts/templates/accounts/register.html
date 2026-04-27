@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow p-4" style="width: 400px; border-radius: 12px;">
+
+        <h3 class="text-center mb-4">Criar Conta</h3>
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label">{{ field.label }}</label>
+                    {{ field }}                    
+                    
+
+                    {% if field.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ field.errors|striptags }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary w-100">
+                Cadastrar
+            </button>
+        </form>
+
+        <div class="text-center mt-3">
+            <small>
+                Já tem conta?
+                <a href="{% url 'accounts:login' %}">Login</a>
+            </small>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

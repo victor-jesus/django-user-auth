@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row justify-content-center align-items-center min-vh-80">
+
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <div class="auth-card p-4">
+
+                <h3 class="auth-title mb-4 text-center">
+                    Entrar na sua conta
+                </h3>
+
+                <form method="post" class="auth-form" novalidate>
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="auth-error mb-3">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="auth-label form-label">
+                                {{ field.label }}
+                            </label>
+
+                            {{ field }}
+
+                            {% if field.errors %}
+                                <div class="auth-field-error">
+                                    {{ field.errors|striptags }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn-primary-ui w-100">
+                        Entrar
+                    </button>
+                </form>
+
+                <div class="text-center mt-3 auth-footer">
+                    <small>
+                        Não tem conta?
+                        <a href="{% url 'accounts:register' %}" class="auth-link">
+                            Criar conta
+                        </a>
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

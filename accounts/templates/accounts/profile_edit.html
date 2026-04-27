@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Perfil{% endblock %}
+
+{% block content %}
+
+<div class="edit-wrapper">
+    <nav class="detail-breadcrumb">
+        <a href="{% url 'accounts:profile' %}" class="breadcrumb-link">
+            ← Voltar para perfil
+        </a>
+    </nav>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <article class="edit-doc">
+            <div class="profile-edit-avatar">
+                <div class="profile-avatar">
+                    {{ user.username|first|upper }}
+                </div>
+                <div>
+                    <h1 class="detail-title" style="font-size: 28px; margin-bottom: 4px;">
+                        Editar Perfil
+                    </h1>
+                    <p style="font-size: 13px; color: var(--text-faint); margin: 0;">
+                        {{ user.email }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="edit-divider"></div>
+            {% if form.non_field_errors %}
+                <div class="auth-error mb-4">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="edit-field-group">
+
+                <div class="edit-field">
+                    <label class="edit-field-hint">Username</label>
+                    <input
+                        type="text"
+                        name="username"
+                        value="{{ form.username.value }}"
+                        class="edit-inline-input"
+                        autocomplete="off"
+                    >
+                    {% if form.username.errors %}
+                        <span class="edit-field-error">{{ form.username.errors|striptags }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="edit-divider"></div>
+
+                <div class="edit-field">
+                    <label class="edit-field-hint">Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        value="{{ form.email.value }}"
+                        class="edit-inline-input"
+                        autocomplete="off"
+                    >
+                    {% if form.email.errors %}
+                        <span class="edit-field-error">{{ form.email.errors|striptags }}</span>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <div class="edit-divider"></div>
+            <footer class="edit-footer">
+                <a href="{% url 'accounts:profile' %}" class="btn-secondary-ui">
+                    Cancelar
+                </a>
+                <div class="d-flex gap-2 align-items-center">
+                    <a href="#" class="btn-secondary-ui">
+                        Trocar senha
+                    </a>
+                    <button type="submit" class="btn-primary-ui">
+                        Salvar
+                    </button>
+                </div>
+            </footer>
+
+        </article>
+
+    </form>
+
+</div>
+
+{% endblock %}

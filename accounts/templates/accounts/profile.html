@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Perfil{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card p-4">
+            <div class="text-center mb-4">
+                <div class="profile-avatar mx-auto mb-3">
+                    {{ user.username|first|upper }}
+                </div>
+                <h4 class="mb-0" style="font-family: 'DM Serif Display', serif; font-weight: 400; letter-spacing: -0.02em;">
+                    {{ user.username }}
+                </h4>
+                <small class="text-muted">{{ user.email }}</small>
+            </div>
+            <hr>
+                <div class="mb-3">
+                    <p class="section-title">Usuário</p>
+                    <p class="section-text">{{ user.username }}</p>
+                </div>
+
+                <div class="mb-3">
+                    <p class="section-title">Email</p>
+                    <p class="section-text">{{ user.email }}</p>
+                </div>
+
+                <div class="mb-3">
+                    <p class="section-title">Status</p>
+                    <p class="mb-1">
+                        <span class="badge bg-success">Autenticado</span>
+                    </p>
+                </div>
+            <hr>
+
+            <div class="d-grid gap-2">
+                <a href="{% url 'accounts:edit' %}" class="btn btn-outline-primary">
+                    Editar Perfil
+                </a>
+                <a href="{% url 'tasks:list' %}" class="btn btn-outline-secondary">
+                    Minhas Tasks
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

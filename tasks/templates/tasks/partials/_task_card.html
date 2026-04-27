@@ -1,0 +1,51 @@
+
+<div class="task-card mb-3 draggable-card
+    {% if task.status == 'done' %} is-done
+    {% elif task.is_overdue %} is-overdue
+    {% elif task.is_today %} is-today
+    {% else %} is-ok
+    {% endif %}"
+    draggable="true"
+    data-id="{{ task.id }}"
+    >
+
+    <a href="{% url 'tasks:detail' task.id %}" class="task-link">
+
+        <div class="p-3">
+            <div class="task-indicator"></div>
+
+            <h6 class="task-title">
+                {{ task.title }}
+            </h6>
+
+            <p class="task-desc">
+                {{ task.description|default:"Sem descrição" }}
+            </p>
+
+            {% if task.due_at %}
+                <div class="task-meta">
+
+                    <small class="task-status">
+                    {% if task.status != 'done' %}
+                        {% if task.is_overdue %}
+                            ⛔ Atrasada
+                        {% elif task.is_today %}
+                            🔥 Hoje
+                        {% else %}
+                            ✔ No prazo
+                        {% endif %}
+                    {% endif %}
+                    </small>
+
+                    <small class="task-date">
+                        {{ task.due_at|date:"d/m H:i" }}
+                    </small>
+
+                </div>
+            {% endif %}
+
+        </div>
+
+    </a>
+
+</div>

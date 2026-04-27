@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Editar — {{ task.title }}{% endblock %}
+
+{% block content %}
+
+<div class="edit-wrapper">
+    <nav class="detail-breadcrumb">
+        <a href="{% url 'tasks:detail' task.pk %}" class="breadcrumb-link">
+            ← Voltar para task
+        </a>
+    </nav>
+
+    <form method="post" novalidate id="edit-form">
+        {% csrf_token %}
+
+        <article class="edit-doc">
+            <div class="edit-status-row">
+                <span class="edit-field-hint">Status</span>
+                <div class="status-selector">
+                    <label class="status-option {% if task.status == 'todo' %}active{% endif %}">
+                        <input type="radio" name="status" value="todo" {% if task.status == 'todo' %}checked{% endif %}>
+                        <span>○ To Do</span>
+                    </label>
+                    <label class="status-option {% if task.status == 'doing' %}active{% endif %}">
+                        <input type="radio" name="status" value="doing" {% if task.status == 'doing' %}checked{% endif %}>
+                        <span>◑ Doing</span>
+                    </label>
+                    <label class="status-option {% if task.status == 'done' %}active{% endif %}">
+                        <input type="radio" name="status" value="done" {% if task.status == 'done' %}checked{% endif %}>
+                        <span>● Done</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="edit-title-wrap">
+                <input
+                    type="text"
+                    name="title"
+                    value="{{ task.title }}"
+                    class="edit-title-input"
+                    placeholder="Título da task..."
+                    autocomplete="off"
+                    required
+                >
+            </div>
+
+            <div class="edit-meta-row">
+                <span class="meta-label">Prazo</span>
+                <input
+                    type="datetime-local"
+                    name="due_at"
+                    class="edit-date-input"
+                    value="{{ task.due_at|date:'Y-m-d\TH:i' }}"
+                >
+            </div>
+
+            <div class="edit-divider"></div>
+
+            <div class="edit-desc-wrap">
+                <span class="edit-field-hint">Descrição</span>
+                <textarea
+                    name="description"
+                    class="edit-desc-input"
+                    placeholder="Adicione uma descrição..."
+                    rows="1"
+                >{{ task.description }}</textarea>
+            </div>
+
+            <div class="edit-divider"></div>
+
+            <footer class="edit-footer">
+                <a href="{% url 'tasks:detail' task.pk %}" class="btn-secondary-ui">
+                    Cancelar
+                </a>
+                <button type="submit" class="btn-primary-ui">
+                    Salvar alterações
+                </button>
+            </footer>
+
+        </article>
+
+    </form>
+
+</div>
+
+
+
+<script>
+const textarea = document.querySelector('.edit-desc-input');
+if (textarea) {
+    const resize = () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    };
+    textarea.addEventListener('input', resize);
+    resize();
+}
+
+document.querySelectorAll('.status-option input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        document.querySelectorAll('.status-option').forEach(opt => opt.classList.remove('active'));
+        radio.closest('.status-option').classList.add('active');
+    });
+});
+</script>
+
+{% endblock %}
