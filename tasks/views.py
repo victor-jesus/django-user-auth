@@ -37,8 +37,6 @@ def task_list(request):
 def update_task(request, pk):
     task = get_object_or_404(Task, pk=pk, user=request.user)
     new_status = request.POST.get('status')
-    new_title = request.POST.get('title')
-    new_desc = request.POST.get('desc')
     
     if new_status in dict(Task.Status.choices):
         task.status = new_status
@@ -87,6 +85,7 @@ def task_delete(request, pk):
     task = get_object_or_404(Task, pk=pk, user=request.user)
     task.delete()
     return redirect('tasks:list')
+
 
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task

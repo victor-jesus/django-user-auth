@@ -19,9 +19,9 @@
 
         {% for field in form %}
             <div class="mb-3">
-                <label class="form-label">{{ field.label }}</label>
-
-                {{ field }}
+                <label class="form-label">{{ field.label }}
+                     {{ field }}
+                </label>
 
                 {% if field.help_text %}
                     <div class="form-text">{{ field.help_text }}</div>
